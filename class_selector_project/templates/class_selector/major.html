@@ -1,11 +1,36 @@
-﻿<!DOCTYPE html>
-<html>
-	<head>
-		<title> {{major}} </title>
-	</head>
+﻿{% extends 'class_selector/base.html' %}
+{% load static %}
 
-	<body>
-		<h1> <strong> {{major}} </strong> </h1>
-		Click <a href = "/selector/"> here </a> to go back 
-	</body>
-</html>
+{% block title %} {{ major_name}} {% endblock %}
+
+{% block head %} <link rel = 'stylesheet' href = "{% static 'css/major.css' %}" /> {% endblock %}
+
+{% block body_block %}
+	<div><h2>{{major_name}} </h2></div>
+	
+	{% if major %}
+		{% if classes %}
+			<table>
+				<tr>
+					<th> Class </th>
+					<th> Frequency </th>
+					<th> Next semester offered </th>
+				</tr>
+				{% for class in classes %}
+
+				<tr>
+					<td> <a href = "{{ class.url }}">{{ class.class_name }} </a> </td>
+					<td> {{ class.frequency }} </td>
+					<td> {{ class.next_sem }}</td>
+				</tr>
+				{% endfor %}
+			</table>	
+		{% else %}
+			<p><strong> No class currently in major </strong></p>
+		{% endif %}
+	{% else %}
+		The specified major, {{major_name}}, does not exist!
+	{% endif %}
+
+        <p><a href = "/selector"> Back </a></p>
+{% endblock %}

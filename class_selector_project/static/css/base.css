@@ -1,0 +1,137 @@
+a:hover {
+	font-weight: bold;
+}
+
+#container
+{
+	margin: 0 auto;
+	width: 100%;
+	background: #fff;
+}
+
+#header
+{
+	/*background: #BAAF98;*/
+	/*background:url('http://www.macalester.edu/resources/v2/web-imgs/MacalesterWordmark.jpg') center no-repeat;*/
+	/*background:url('http://biscuithead.ie/images/logo.png') center no-repeat; */
+	background: -webkit-linear-gradient(#C3B0A2, #937D6F); 
+	background: -o-linear-gradient(#C3B0A2, #937D6F)); 
+	background: -moz-linear-gradient#C3B0A2, #937D6F)); 
+	background: linear-gradient(#C3B0A2, #937D6F));
+	color: #FEFEFE;
+	padding: 20px;
+	/*height: 126px*/
+}
+
+#header h1 { margin: 0;
+	     font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;}
+	     
+
+#navigation
+{
+	float: left;
+	width: 100%;
+	/*background: #DFCFAF;*/
+	background: -webkit-linear-gradient(#CAB8AB, #D9CDC5, #8B7669); 
+	background: -o-linear-gradient(#CAB8AB, #D9CDC5, #8B7669); 
+	background: -moz-linear-gradient(#CAB8AB, #D9CDC5, #8B7669); 
+	background: linear-gradient(#CAB8AB, #D9CDC5, #8B7669);
+}
+
+#navigation ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#navigation ul li
+{
+	list-style-type: none;
+	display: inline;
+}
+
+#navigation li a
+{
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: #826E63;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+	font-size: 1.1em;
+}
+
+#navigation li a:hover { background: #EEE9E5; }
+
+#content-container1
+{
+	float: left;
+	width: 100%;
+	background: #fff url(/wp-content/uploads/layout-three-liquid-background1.gif) repeat-y 20% 0;
+}
+
+#content-container2
+{
+	float: left;
+	width: 100%;
+	background: url(/wp-content/uploads/layout-three-liquid-background2.gif) repeat-y 80% 0;
+}
+
+#section-navigation
+{
+	float: left;
+	width: 16%;
+	padding: 20px 0;
+	margin: 0;
+	display: inline;
+	background: #EA8106
+}
+
+#section-navigation ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#section-navigation ul li
+{
+	margin: 0 0 10px;
+	padding: 0;
+	list-style-type: none;
+	color: #fff;
+}
+
+#content
+{
+	float: left;
+	width: 72%;
+	padding: 20px 0;
+	margin: 0 0 0 2%;
+}
+
+#content h2 { margin: 0; }
+
+/*#aside*/
+/*{*/
+	/*float: right;*/
+	/*width: 16%;*/
+	/*padding: 20px 0;*/
+	/*margin: 0 2% 0 0;*/
+	/*display: inline;*/
+/*}*/
+
+/*#aside h3 { margin: 0; }*/
+
+#footer
+{
+	clear: both;
+	/*background: #BAAF98;*/
+	background: -webkit-linear-gradient(#C3B0A2, #937D6F); 
+	background: -o-linear-gradient(#C3B0A2, #937D6F)); 
+	background: -moz-linear-gradient#C3B0A2, #937D6F)); 
+	background: linear-gradient(#C3B0A2, #937D6F));
+	color: #FFFFFF;
+	text-align: right;
+	padding: 20px;
+	height: 1%;
+}

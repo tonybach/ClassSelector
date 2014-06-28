@@ -1,15 +1,13 @@
-﻿<!DOCTYPE html>
-<html>
-	<head>
-		<title> Class Selector </title>
-	</head>
+﻿{% extends 'class_selector/base.html' %}
+{% load static %}
 
-	<body>
-		<h1> <strong> Class Selector </strong> </h1>
-		<p> Choose your major below! <p>
-		<ul>
-			<li> <a href = "/selector/americanstudies"> American Studies </a>
-			<li> <a href = "/selector/anthropology"> Anthropology </a>
-		<ul>
-	</body>
-</html>
+{% block title %} Class Selector {% endblock %}
+
+{% block body_block %}	    
+	{% if majors %}
+		<h2> Home </h2>
+		<p>Click one of the majors on the left to start!</p>
+	{% else %}
+		<strong> There are no majors present </strong>
+	{% endif %}
+{% endblock %}

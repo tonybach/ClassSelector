@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>        
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> {% block title %} Class Selector {% endblock %} </title>
+	<link rel = "stylesheet" href = "{% static "css/base.css" %}" />
+	{% block head %}{% endblock%}
+    </head>
+    
+    <body>
+    <div id="container">
+	<div id="header">
+		<!--<img src = 'http://www.macalester.edu/resources/v2/web-imgs/MacalesterWordmark.jpg' />-->
+		<h1>
+			Class Selector
+		</h1>
+	</div>
+	<div id="navigation">
+		<ul>
+			<li><a href="/selector">Home</a></li>
+			<li><a href="/selector/about">About</a></li>
+			<li><a href="/selector/contact">Contact</a></li>
+		</ul>
+	</div>
+	<div id="content-container1">
+		<div id="content-container2">
+			<div id="section-navigation">
+				<ul>
+					{% for major in majors %}
+						<li> <a href = "/selector/major/{{ major.url }}"> {{major.major_name }} </a></li>
+					{% endfor %}		
+				</ul>
+			</div>
+			<div id="content">
+				{% block body_block %}{% endblock %}
+
+			</div>
+			<div id="footer">
+				Copyright: Class Selector, 2014 
+			</div>
+	    </div>
+	</div>
+    </div>
+    </body>
+</html>

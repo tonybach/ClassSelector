@@ -3,12 +3,12 @@ from urllib.request import urlopen
 import re
 import collections
 
-#majors = ['AMST', 'ANTH', 'ART', 'ASIA', 'BIOL', 'CHEM', 'CHIN', 'CLAS', 'COMP', 'ECON', 'EDUC', 'ENGL', 'ENVI', 'FREN', 'GEOG', 'GEOL', 'GERM', 'HISP', 'HIST', 'INTL', 'JAPA', 'LATI', 'LING', 'MATH', 'MCST', 'MUSI', 'NEUR', 'PHIL', 'PHYS', 'POLI', 'PSYC', 'RELI', 'RUSS', 'SOCI', 'THDA', 'WGSS']
+majors = ['AMST', 'ANTH', 'ART', 'ASIA', 'BIOL', 'CHEM', 'CHIN', 'CLAS', 'COMP', 'ECON', 'EDUC', 'ENGL', 'ENVI', 'FREN', 'GEOG', 'GEOL', 'GERM', 'HISP', 'HIST', 'INTL', 'JAPA', 'LATI', 'LING', 'MATH', 'MCST', 'MUSI', 'NEUR', 'PHIL', 'PHYS', 'POLI', 'PSYC', 'RELI', 'RUSS', 'SOCI', 'THDA', 'WGSS']
 
 #majors = ['BIOL', 'CHEM', 'CHIN', 'CLAS', 'COMP', 'ECON', 'EDUC', 'ENGL', 'ENVI', 'FREN', 'GEOG', 'GEOL', 'GERM', 'HISP', 'HIST', 'INTL', 'JAPA', 'LATI', 'LING', 'MATH', 'MCST', 'MUSI', 'NEUR', 'PHIL', 'PHYS', 'POLI', 'PSYC', 'RELI', 'RUSS', 'SOCI', 'THDA', 'WGSS']
-majors = ['AMST', 'ANTH', 'THDA', 'WGSS']
+# majors = ['AMST', 'ANTH', 'THDA', 'WGSS']
 
-#majors = ['AMST']
+# majors = ['AMST']
 
 def get_links():
     html = urlopen('http://www.macalester.edu/registrar/schedules/2014fall/class-schedule/').read()
@@ -24,10 +24,10 @@ def get_links():
 #link_list = ['http://www.macalester.edu/americanstudies/', 'http://www.macalester.edu/anthropology/', 'http://www.macalester.edu/art/', 'http://www.macalester.edu/academics/asian/', 'http://www.macalester.edu/academics/biology/', 'http://www.macalester.edu/academics/chemistry/', 'http://www.macalester.edu/academics/asian/', 'http://www.macalester.edu/academics/classics/', 'http://www.macalester.edu/academics/mscs/', 'http://www.macalester.edu/academics/economics/', 'http://www.macalester.edu/academics/education/', 'http://www.macalester.edu/academics/english/', 'http://www.macalester.edu/academics/environmentalstudies/', 'http://www.macalester.edu/academics/french/', 'http://www.macalester.edu/academics/geography/', 'http://www.macalester.edu/academics/geology/', 'http://www.macalester.edu/academics/german/', 'http://www.macalester.edu/academics/hispanicstudies/', 'http://www.macalester.edu/academics/history/']
 
 def all_major_dict():
-    #link_list = ['http://www.macalester.edu/americanstudies/']
-    link_list = ['http://www.macalester.edu/americanstudies/', 'http://www.macalester.edu/anthropology/', 'http://www.macalester.edu/academics/theatreanddance/', 'http://www.macalester.edu/academics/wgss/']
+    # link_list = ['http://www.macalester.edu/americanstudies/']
+    # link_list = ['http://www.macalester.edu/americanstudies/', 'http://www.macalester.edu/anthropology/', 'http://www.macalester.edu/academics/theatreanddance/', 'http://www.macalester.edu/academics/wgss/']
     #link_list = ['http://www.macalester.edu/academics/biology/', 'http://www.macalester.edu/academics/chemistry/', 'http://www.macalester.edu/academics/asian/', 'http://www.macalester.edu/academics/classics/', 'http://www.macalester.edu/academics/mscs/','http://www.macalester.edu/academics/economics/', 'http://www.macalester.edu/academics/education/', 'http://www.macalester.edu/academics/english/', 'http://www.macalester.edu/academics/environmentalstudies/', 'http://www.macalester.edu/academics/french/', 'http://www.macalester.edu/academics/geography/', 'http://www.macalester.edu/academics/geology/', 'http://www.macalester.edu/academics/german/', 'http://www.macalester.edu/academics/hispanicstudies/', 'http://www.macalester.edu/academics/history/', 'http://www.macalester.edu/academics/internationalstudies/', 'http://www.macalester.edu/academics/asian/', 'http://www.macalester.edu/academics/las/', 'http://www.macalester.edu/academics/linguistics/', 'http://www.macalester.edu/academics/mscs/', 'http://www.macalester.edu/academics/mcs/', 'http://www.macalester.edu/academics/music/', 'http://www.macalester.edu/academics/neuroscience/', 'http://www.macalester.edu/academics/philosophy/', 'http://www.macalester.edu/academics/physics/', 'http://www.macalester.edu/academics/politicalscience/', 'http://www.macalester.edu/academics/psychology/', 'http://www.macalester.edu/academics/religiousstudies/', 'http://www.macalester.edu/academics/russian/', 'http://www.macalester.edu/academics/sociology/', 'http://www.macalester.edu/academics/theatreanddance/', 'http://www.macalester.edu/academics/wgss/']
-    #link_list = get_links()
+    link_list = get_links()
     name_link_dict = {}
     only_h3 = SoupStrainer('h3')
     only_a = SoupStrainer('a')

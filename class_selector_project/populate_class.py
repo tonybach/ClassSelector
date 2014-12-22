@@ -2,8 +2,14 @@ import os
 from bs4 import BeautifulSoup, SoupStrainer
 from urllib.request import urlopen
 import re
+from lxml import html
+from __future import print_function
+import sys
+from gevent import monkey
 
 from test import all_major_dict, get_links, majors
+
+monkey.patch_all()
 
 only_title = SoupStrainer('title')
 only_td = SoupStrainer('td')
@@ -77,6 +83,14 @@ fall2012 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/
 spring2012 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2012spring/class-schedule/').read(), parse_only = only_td)
 fall2011 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2011fall/class-schedule/').read(), parse_only = only_td)
 
+#spring2015 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2015spring/class-schedule/').read())
+#fall2014 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014fall/class-schedule/').read())
+#spring2014 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014spring/class-schedule/').read())
+#fall2013 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013fall/class-schedule/').read())
+#spring2013 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013spring/class-schedule/').read())
+#fall2012 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012fall/class-schedule/').read())
+#spring2012 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012spring/class-schedule/').read())
+#fall2011 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2011fall/class-schedule/').read())
 
 #def get_frequency():
     #link_list = get_links()
@@ -108,12 +122,12 @@ def nextSemester(url):
     next_sem = "No info"
     freq = "No info"
     
-    #titleSoup = BeautifulSoup(urlopen(url).read(), parse_only = only_title)
-    #title = re.compile ("".join([titleSoup.get_text()[0:4], "\xa0", titleSoup.get_text()[5:8]]))
-    #soup = BeautifulSoup(urlopen(url).read(), parse_only = only_td)
+    titleSoup = BeautifulSoup(urlopen(url).read(), parse_only = only_title)
+    title = re.compile ("".join([titleSoup.get_text()[0:4], "\xa0", titleSoup.get_text()[5:8]]))
+    soup = BeautifulSoup(urlopen(url).read(), parse_only = only_td)
     
-    soup = BeautifulSoup(urlopen(url).read())
-    title = re.compile("".join([soup.title.get_text()[0:4], "\xa0", soup.title.get_text()[5:8]]))
+    #title = re.compile("".join([soup.title.get_text()[0:4], "\xa0", soup.title.get_text()[5:8]]))
+    
     
     if soup.find(text = pattern1):
         next_sem = 'Fall 2014'
@@ -189,54 +203,54 @@ def nextSemester(url):
         next_sem = 'Fall 2014'
     elif spring2015.find(text = title):
         next_sem = 'Spring 2015'    
-    return [next_sem, freq]
+    return next_sem, freq
                     
 def populate():
     amst = add_major('American Studies')
     anth = add_major('Anthropology')
-    art = add_major ('Art and Art History')
-    asia = add_major('Asian Languages and Cultures')
-    biol = add_major('Biology')
-    chem = add_major('Chemistry')
-    chin = add_major('Chinese')
-    clas = add_major('Classics')
-    comp = add_major('Computer Science')
-    econ = add_major('Economics')
-    educ = add_major('Educational Studies')
-    engl = add_major('English')
-    envi = add_major('Environmental Studies')
-    fren = add_major('French and Francophone Studies')
-    geog = add_major('Geography')
-    geol = add_major('Geology')
-    germ = add_major('German Studies')
-    hisp = add_major('Hispanic and Latin American Studies')
-    hist = add_major('History')
-    intl = add_major('International Studies')
-    japa = add_major('Japanese')
-    lati = add_major('Latin American Studies')
-    ling = add_major('Linguistics')
-    math = add_major('Mathematics')
-    mcst = add_major('Media and Cultural Studies')
-    musi = add_major('Music')
-    neur = add_major('Neuroscience Studies')
-    phil = add_major('Philosophy')
-    phys = add_major('Physics and Astronomy')
-    poli = add_major('Political Science')
-    psyc = add_major('Psychology')
-    reli = add_major('Religious Studies')
-    russ = add_major('Russian')
-    soci = add_major('Sociology')
+    #art = add_major ('Art and Art History')
+    #asia = add_major('Asian Languages and Cultures')
+    #biol = add_major('Biology')
+    #chem = add_major('Chemistry')
+    #chin = add_major('Chinese')
+    #clas = add_major('Classics')
+    #comp = add_major('Computer Science')
+    #econ = add_major('Economics')
+    #educ = add_major('Educational Studies')
+    #engl = add_major('English')
+    #envi = add_major('Environmental Studies')
+    #fren = add_major('French and Francophone Studies')
+    #geog = add_major('Geography')
+    #geol = add_major('Geology')
+    #germ = add_major('German Studies')
+    #hisp = add_major('Hispanic and Latin American Studies')
+    #hist = add_major('History')
+    #intl = add_major('International Studies')
+    #japa = add_major('Japanese')
+    #lati = add_major('Latin American Studies')
+    #ling = add_major('Linguistics')
+    #math = add_major('Mathematics')
+    #mcst = add_major('Media and Cultural Studies')
+    #musi = add_major('Music')
+    #neur = add_major('Neuroscience Studies')
+    #phil = add_major('Philosophy')
+    #phys = add_major('Physics and Astronomy')
+    #poli = add_major('Political Science')
+    #psyc = add_major('Psychology')
+    #reli = add_major('Religious Studies')
+    #russ = add_major('Russian')
+    #soci = add_major('Sociology')
     thda = add_major('Theatre and Dance')
     wgss = add_major('Women\'s, Gender and Sexuality Studies')
     
-    major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
+    #major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
         
     #major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist
     #major_list = [biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
     
-    # major_list = [amst, anth, thda, wgss]
+    major_list = [amst, anth, thda, wgss]
     
-    # major_list = [amst]
+    #major_list = [amst]
     
     major_dict = all_major_dict() 
     
@@ -244,9 +258,7 @@ def populate():
         major = major_list[i]        
         for class_ in major_dict.get(majors[i]):
             url = major_dict.get(majors[i]).get(class_)
-            next_sem_and_freq = nextSemester(url)
-            next_sem = next_sem_and_freq[0]
-            frequency = next_sem_and_freq[1]
+            next_sem, frequency = nextSemester(url)
             add_class (major = major, 
                        class_name = class_, 
                        url = url, 

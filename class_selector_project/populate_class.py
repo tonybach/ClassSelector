@@ -3,254 +3,223 @@ from bs4 import BeautifulSoup, SoupStrainer
 from urllib.request import urlopen
 import re
 from lxml import html
-from __future import print_function
-import sys
-from gevent import monkey
 
 from test import all_major_dict, get_links, majors
-
-monkey.patch_all()
 
 only_title = SoupStrainer('title')
 only_td = SoupStrainer('td')
 
-pattern1 = re.compile ('very semester')
-#pattern15 = re.compile ('every semester')
-pattern2 = re.compile ('very fall')
-#pattern25 = re.compile ('every fall')
-pattern26 = re.compile ('Every Fall')
-pattern3 = re.compile ('all semester')
-#pattern35 = re.compile ('fall semester')
-pattern36 = re.compile ('Fall Semester')
-pattern16 = re.compile ('only in the fall')
-pattern4 = re.compile ('very spring')
-#pattern45 = re.compile ('every spring')
-pattern5 = re.compile ('pring semester')
-#pattern55 = re.compile ('spring semester')
-pattern56 = re.compile ('Spring Semester')
-#pattern57 = re.compile ('Every year; Spring semester')
-pattern6 = re.compile ('very year')
-#pattern65 = re.compile ('every year')
-pattern66= re.compile ('annually')
-pattern67= re.compile ('yearly')
-pattern68 = re.compile ('nce each year')
-pattern69 = re.compile ('nce per year')
-#pattern691 = re.compile ('once per year')
-pattern7 = re.compile ('lternate years')
-#pattern75 = re.compile ('alternate years')
-pattern76 = re.compile ('every two years')
-pattern77 = re.compile ('very other year')
-#pattern78 = re.compile ('Every other year')
-pattern8 = re.compile ('lternate fall semesters')
-#pattern85 = re.compile ('alternate fall semesters')
-pattern86 = re.compile ('Every other fall')
-pattern87 = re.compile ('Alternate years, fall semester')
-pattern88 = re.compile ('in the fall every two years')
-pattern89 = re.compile ('Fall semester every other year')
-pattern9 = re.compile ('lternate spring semesters')
-#pattern95 = re.compile ('alternate spring semesters')
-pattern96 = re.compile ('very other spring')
-#pattern97 = re.compile ('every other spring')
-pattern98 = re.compile ('Alternate years, spring semester')
-pattern99 = re.compile ('Spring semester, every other year')
-pattern10 = re.compile ('Even numbered fall semesters')
-pattern105 = re.compile ('even-numbered fall semesters')
-pattern106 = re.compile ('fall term of even-numbered years')
-pattern11 = re.compile ('Even numbered spring semesters')
-pattern115 = re.compile ('even-numbered spring semesters')
-pattern116 = re.compile ('spring term of even-numbered years')
-pattern12 = re.compile ('Odd numbered fall semesters')
-pattern125 = re.compile ('odd-numbered fall semesters')
-pattern126 = re.compile ('fall term of odd-numbered years')
-pattern13 = re.compile ('Odd numbered spring semesters')
-pattern135 = re.compile ('odd-numbered spring semesters')
-pattern14 = re.compile ('very third year')
-#pattern145 = re.compile ('every third year')
-pattern146 = re.compile ('every three years')
-pattern15 = re.compile('Two years in every three')
-pattern17 = re.compile ('Offered next in 2015')
+pattern1 = 'very semester'
+#pattern15 = 'every semester'
+pattern2 = 'very fall'
+#pattern25 = 'every fall'
+pattern26 = 'Every Fall'
+pattern3 = 'all semester'
+#pattern35 = 'fall semester'
+pattern36 = 'Fall Semester'
+pattern16 = 'only in the fall'
+pattern4 = 'very spring'
+#pattern45 = 'every spring'
+pattern5 = 'pring semester'
+#pattern55 = 'spring semester'
+pattern56 = 'Spring Semester'
+#pattern57 = 'Every year; Spring semester'
+pattern6 = 'very year'
+#pattern65 = 'every year'
+pattern66= 'annually'
+pattern67= 'yearly'
+pattern68 = 'nce each year'
+pattern69 = 'nce per year'
+#pattern691 = 'once per year'
+pattern7 = 'lternate years'
+#pattern75 = 'alternate years'
+pattern76 = 'every two years'
+pattern77 = 'very other year'
+#pattern78 = 'Every other year'
+pattern8 = 'lternate fall semesters'
+#pattern85 = 'alternate fall semesters'
+pattern86 = 'Every other fall'
+pattern87 = 'Alternate years, fall semester'
+pattern88 = 'in the fall every two years'
+pattern89 = 'Fall semester every other year'
+pattern9 = 'lternate spring semesters'
+#pattern95 = 'alternate spring semesters'
+pattern96 = 'very other spring'
+#pattern97 = 'every other spring'
+pattern98 = 'Alternate years, spring semester'
+pattern99 = 'Spring semester, every other year'
+pattern10 = 'Even numbered fall semesters'
+pattern105 = 'even-numbered fall semesters'
+pattern106 = 'fall term of even-numbered years'
+pattern11 = 'Even numbered spring semesters'
+pattern115 = 'even-numbered spring semesters'
+pattern116 = 'spring term of even-numbered years'
+pattern12 = 'Odd numbered fall semesters'
+pattern125 = 'odd-numbered fall semesters'
+pattern126 = 'fall term of odd-numbered years'
+pattern13 = 'Odd numbered spring semesters'
+pattern135 = 'odd-numbered spring semesters'
+pattern14 = 'very third year'
+#pattern145 = 'every third year'
+pattern146 = 'every three years'
+pattern15 = 'Two years in every three'
+pattern17 = 'Offered next in 2015'
 
 #pattern_list = [pattern1, pattern2, pattern3, pattern36, pattern4, pattern5, pattern56, pattern6, pattern66, pattern67, pattern68, pattern69, pattern7, pattern76, pattern77, pattern8, pattern86, pattern87, pattern88, pattern89, pattern9, pattern96, pattern98, pattern99, pattern10, pattern105, pattern106, pattern11, pattern115, pattern116, pattern12, pattern125, pattern126, pattern13, pattern135, pattern14, pattern146, pattern15, pattern16, pattern17]
 
 #freq_list = [('Every semester'),('every semester'),('Every fall'),('every fall'),('Fall semester'),('fall semester'),('Every spring'), ('every spring'),('Spring semester'),('spring semester'),('Every year; Spring semester'),('Every year'),('every year'),('Alternate years'),('alternate years'),('every two years'),('Alternate fall semesters'), ('alternate fall semesters'),('Alternate spring semesters'),('alternate spring semesters'),('Even numbered fall semesters'),('even-numbered fall semesters'),('Even numbered spring semesters'), ('even-numbered spring semesters'), ('Odd numbered fall semesters'), ('odd-numbered fall semesters'),('Odd numbered spring semesters'),('odd-numbered spring semesters'), ('Every third year'), ('every third year')]
 
-spring2015 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2015spring/class-schedule/').read(), parse_only = only_td)
-fall2014 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2014fall/class-schedule/').read(), parse_only = only_td)
-spring2014 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2014spring/class-schedule/').read(), parse_only = only_td)
-fall2013 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2013fall/class-schedule/').read(), parse_only = only_td)
-spring2013 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2013spring/class-schedule/').read(), parse_only = only_td)
-fall2012 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2012fall/class-schedule/').read(), parse_only = only_td)
-spring2012 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2012spring/class-schedule/').read(), parse_only = only_td)
-fall2011 = BeautifulSoup(urlopen('http://www.macalester.edu/registrar/schedules/2011fall/class-schedule/').read(), parse_only = only_td)
+#root = lxml.html.fromstring(html_data)
+#links_lxml_res = root.cssselect("a.detailsViewLink")
+#links_lxml = [link.get("href") for link in links_lxml_res]
+#links_lxml = list(set(links_lxml))
 
-#spring2015 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2015spring/class-schedule/').read())
-#fall2014 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014fall/class-schedule/').read())
-#spring2014 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014spring/class-schedule/').read())
-#fall2013 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013fall/class-schedule/').read())
-#spring2013 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013spring/class-schedule/').read())
-#fall2012 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012fall/class-schedule/').read())
-#spring2012 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012spring/class-schedule/').read())
-#fall2011 = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2011fall/class-schedule/').read())
+spring2015tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2015spring/class-schedule/').read())
+fall2014tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014fall/class-schedule/').read())
+spring2014tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2014spring/class-schedule/').read())
+fall2013tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013fall/class-schedule/').read())
+spring2013tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2013spring/class-schedule/').read())
+fall2012tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012fall/class-schedule/').read())
+spring2012tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2012spring/class-schedule/').read())
+fall2011tree = html.fromstring(urlopen('http://www.macalester.edu/registrar/schedules/2011fall/class-schedule/').read())
 
-#def get_frequency():
-    #link_list = get_links()
-    #for i in range(len(link_list)):
-        #soup = BeautifulSoup(urlopen(link_list[i] + "/courses/").read())
-        #frequency = soup.find_all('p', text = re.compile('Frequency'))
-        #for freq in frequency:
-            #freq_text = freq.get_text().lstrip('Frequency:').rstrip('.')
-            #if 'Offered' in freq_text:
-                #freq_text = freq_text.lstrip('Offered')
-            #freq_text = freq_text.lstrip("  ")
-            #if freq_text not in freq_list:
-                #print(freq_text)
-
-#get_frequency()
-
-#def get_frequency(url):
-    #frequency = "No info"
-    #soup = BeautifulSoup(urlopen(url).read())
-    #for pattern in pattern_list:
-        #if soup.find(text = pattern):
-            #frequency = pattern.pattern
-    #return frequency
-
-#only_p = SoupStrainer('p')
+spring2015 = spring2015tree.xpath('.//table')[1].text_content()
+fall2014 = fall2014tree.xpath('.//table')[1].text_content()
+spring2014 = spring2014tree.xpath('.//table')[1].text_content()
+fall2013 = fall2013tree.xpath('.//table')[1].text_content()
+spring2013 = spring2013tree.xpath('.//table')[1].text_content()
+fall2012 = fall2012tree.xpath('.//table')[1].text_content()
+spring2012 = spring2012tree.xpath('.//table')[1].text_content()
+fall2011 = fall2011tree.xpath('.//table')[1].text_content()
 
 
 def nextSemester(url):
     next_sem = "No info"
     freq = "No info"
     
-    titleSoup = BeautifulSoup(urlopen(url).read(), parse_only = only_title)
-    title = re.compile ("".join([titleSoup.get_text()[0:4], "\xa0", titleSoup.get_text()[5:8]]))
-    soup = BeautifulSoup(urlopen(url).read(), parse_only = only_td)
+    pageHTML = html.fromstring(urlopen(url).read())
+    soup = pageHTML.xpath('.//td[@class="block_content"]')[0].text_content()
+    e = pageHTML.find('.//title')
+    title = e.text_content()[0:4]+"\xa0"+e.text_content()[5:8]
+    #title = "".join[(e.text_content()[0:4], "\xa0", e.text_content()[5:8])]    
     
-    #title = re.compile("".join([soup.title.get_text()[0:4], "\xa0", soup.title.get_text()[5:8]]))
+    # title in spring2015:
     
-    
-    if soup.find(text = pattern1):
+    if pattern1 in soup:
         next_sem = 'Fall 2014'
         freq = 'Every semester'
-    elif soup.find(text = pattern2) or soup.find(text = pattern26) or soup.find(text = pattern3) or soup.find(text = pattern36) or soup.find(text = pattern16):
-        if fall2013.find(text = title) or fall2012.find(text = title):
+    elif pattern2 in soup or pattern26 in soup or pattern3 in soup or pattern36 in soup or pattern16 in soup:
+        if title in fall2013 or title in fall2012:
             next_sem = 'Fall 2015 (guess)'
         freq = 'Every fall'
-    elif soup.find(text = pattern4) or soup.find(text = pattern5) or soup.find(text = pattern56):
+    elif pattern4 in soup or pattern5 in soup or pattern56 in soup:
         next_sem = 'Spring 2016 (guess)'
         freq = 'Every spring'
-    elif soup.find(text = pattern6) or soup.find(text = pattern66) or soup.find(text = pattern67) or soup.find(text = pattern68) or soup.find(text = pattern69):
-        if fall2013.find(text = title) or fall2012.find(text = title):
+    elif pattern6 in soup or pattern66 in soup or pattern67 in soup or pattern68 in soup or pattern69 in soup:
+        if title in fall2013 or title in fall2012:
             next_sem = 'Fall 2015 (guess)'
-        elif spring2014.find(text = title) or spring2013.find(text = title):
+        elif title in spring2014 or title in spring2013:
             next_sem = 'Spring 2015 (guess)'
         freq = 'Every year'  
-    elif soup.find(text = pattern7) or soup.find(text = pattern76) or soup.find(text = pattern77):      
-        if spring2014.find(text = title):
+    elif pattern7 in soup or pattern76 in soup or pattern77 in soup:      
+        if title in spring2014:
             next_sem = 'Spring 2016'
-        elif fall2013.find(text = title):
+        elif title in fall2013:
             next_sem = 'Fall 2015'   
         freq = 'Alternate years'
-    elif soup.find (text = pattern8) or soup.find(text = pattern86) or soup.find(text = pattern87) or soup.find(text = pattern88) or soup.find(text = pattern89):
-        if fall2013.find(text = title):
+    elif pattern8 in soup or pattern86 in soup or pattern87 in soup or pattern88 in soup or pattern89 in soup:
+        if title in fall2013:
             next_sem = 'Fall 2015'
         freq = 'Alternate fall semesters'
-    elif soup.find(text = pattern9) or soup.find(text = pattern96) or soup.find(text = pattern98) or soup.find(text = pattern99):
-        if spring2014.find(text = title):
+    elif pattern9 in soup or pattern96 in soup or pattern98 in soup or pattern99 in soup:
+        if title in spring2014:
             next_sem = 'Spring 2016'
         freq = 'Alternate spring semesters'
-    elif soup.find(text = pattern10) or soup.find(text = pattern105) or soup.find(text = pattern106):
-        if fall2012.find(text = title):
+    elif pattern10 in soup or pattern105 in soup or pattern106 in soup:
+        if title in fall2012:
             next_sem = 'Fall 2016 (guess)'
         freq = 'Even numbered fall semesters'
-    elif soup.find(text = pattern11) or soup.find(text = pattern115) or soup.find(text = pattern116):
+    elif pattern11 in soup or pattern115 in soup or pattern116 in soup:
         next_sem = 'Spring 2016'
         freq = 'Even numbered spring semesters'
-    elif soup.find(text = pattern12) or soup.find(text = pattern125) or soup.find(text = pattern126):
+    elif pattern12 in soup or pattern125 in soup or pattern126 in soup:
         next_sem = 'Fall 2015'
         freq = 'Odd numbered fall semesters'
-    elif soup.find(text = pattern13) or soup.find(text = pattern135):
-        if spring2013.find(text = title):
+    elif pattern13 in soup or pattern135 in soup:
+        if title in spring2013:
             next_sem = 'Spring 2017 (guess)'
         freq = 'Odd numbered spring semesters'
-    elif soup.find(text = pattern14) or soup.find(text = pattern146):
-        if fall2012.find(text = title):
+    elif pattern14 in soup or pattern146 in soup:
+        if title in fall2012:
             next_sem = 'Fall 2015'    
-        elif spring2013.find(text = title):
+        elif title in spring2013:
             next_sem = 'Spring 2016'
-        elif fall2013.find(text = title):
+        elif title in fall2013:
             next_sem = 'Fall 2016'
-        elif spring2014.find(text = title):
+        elif title in spring2014:
             next_sem = 'Spring 2017'
         freq = 'Every three years'
-    #elif soup.find(text = pattern15):
-    #elif soup.find(text = pattern16):
+    #elif pattern15):
+    #elif pattern16):
         #next_sem = 'Fall 2015'
         #freq = 'Only in the fall'
-    elif soup.find(text = pattern17):
+    elif pattern17 in soup:
         next_sem = 'Fall 2015'
         freq = 'Offered next in 2015'
-    elif fall2011.find(text = title) and fall2013.find(text = title):
+    elif title in fall2011 and title in fall2013:
         next_sem = 'Fall 2015 (guess)'
-    elif spring2012.find(text = title) and spring2014.find(text = title):
+    elif title in spring2012 and title in spring2014:
         next_sem = 'Spring 2016 (guess)'
-    elif soup.find('title', text = re.compile('Tutorial')) or soup.find('title', text = re.compile('Independent Project')) or soup.find('title', text = re.compile('Internship')) or soup.find('title', text = re.compile('Preceptorship')) or soup.find('title', text = re.compile('Honors Independent')):
-        if soup.find(text = pattern4) or soup.find(text = pattern5) or soup.find(text = pattern56):
+    elif 'Tutorial' in e.text_content() or 'Independent Project' in e.text_content() or 'Internship' in e.text_content() or 'Preceptorship' in e.text_content() or 'Honors Independent' in e.text_content():
+        if pattern4 in soup or pattern5 in soup or pattern56 in soup:
             next_sem = 'Spring 2015'
         else:
             next_sem = 'Fall 2014'    
-    if fall2014.find(text = title):
+    if title in fall2014:
         next_sem = 'Fall 2014'
-    elif spring2015.find(text = title):
+    elif title in spring2015:
         next_sem = 'Spring 2015'    
     return next_sem, freq
                     
 def populate():
     amst = add_major('American Studies')
     anth = add_major('Anthropology')
-    #art = add_major ('Art and Art History')
-    #asia = add_major('Asian Languages and Cultures')
-    #biol = add_major('Biology')
-    #chem = add_major('Chemistry')
-    #chin = add_major('Chinese')
-    #clas = add_major('Classics')
-    #comp = add_major('Computer Science')
-    #econ = add_major('Economics')
-    #educ = add_major('Educational Studies')
-    #engl = add_major('English')
-    #envi = add_major('Environmental Studies')
-    #fren = add_major('French and Francophone Studies')
-    #geog = add_major('Geography')
-    #geol = add_major('Geology')
-    #germ = add_major('German Studies')
-    #hisp = add_major('Hispanic and Latin American Studies')
-    #hist = add_major('History')
-    #intl = add_major('International Studies')
-    #japa = add_major('Japanese')
-    #lati = add_major('Latin American Studies')
-    #ling = add_major('Linguistics')
-    #math = add_major('Mathematics')
-    #mcst = add_major('Media and Cultural Studies')
-    #musi = add_major('Music')
-    #neur = add_major('Neuroscience Studies')
-    #phil = add_major('Philosophy')
-    #phys = add_major('Physics and Astronomy')
-    #poli = add_major('Political Science')
-    #psyc = add_major('Psychology')
-    #reli = add_major('Religious Studies')
-    #russ = add_major('Russian')
-    #soci = add_major('Sociology')
+    art = add_major ('Art and Art History')
+    asia = add_major('Asian Languages and Cultures')
+    biol = add_major('Biology')
+    chem = add_major('Chemistry')
+    chin = add_major('Chinese')
+    clas = add_major('Classics')
+    comp = add_major('Computer Science')
+    econ = add_major('Economics')
+    educ = add_major('Educational Studies')
+    engl = add_major('English')
+    envi = add_major('Environmental Studies')
+    fren = add_major('French and Francophone Studies')
+    geog = add_major('Geography')
+    geol = add_major('Geology')
+    germ = add_major('German Studies')
+    hisp = add_major('Hispanic and Latin American Studies')
+    hist = add_major('History')
+    intl = add_major('International Studies')
+    japa = add_major('Japanese')
+    lati = add_major('Latin American Studies')
+    ling = add_major('Linguistics')
+    math = add_major('Mathematics')
+    mcst = add_major('Media and Cultural Studies')
+    musi = add_major('Music')
+    neur = add_major('Neuroscience Studies')
+    phil = add_major('Philosophy')
+    phys = add_major('Physics and Astronomy')
+    poli = add_major('Political Science')
+    psyc = add_major('Psychology')
+    reli = add_major('Religious Studies')
+    russ = add_major('Russian')
+    soci = add_major('Sociology')
     thda = add_major('Theatre and Dance')
     wgss = add_major('Women\'s, Gender and Sexuality Studies')
     
-    #major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
-        
-    #major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist
-    #major_list = [biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
-    
-    major_list = [amst, anth, thda, wgss]
-    
-    #major_list = [amst]
+    major_list = [amst, anth, art, asia, biol, chem, chin, clas, comp, econ, educ, engl, envi, fren, geog, geol, germ, hisp, hist, intl, japa, lati, ling, math, mcst, musi, neur, phil, phys, poli, psyc, reli, russ, soci, thda, wgss]
     
     major_dict = all_major_dict() 
     
